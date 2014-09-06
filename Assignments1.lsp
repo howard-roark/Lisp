@@ -13,7 +13,7 @@
 ; Helper function for deleteAtAll
 (defun deleteAtAllLists (L Inds)
   (cond ((NULL L) L)
-        (T (cond((NULL Inds) L)
+        (T (cond ((NULL Inds) L)
                  (T (cond ((= (car Inds) 0) (deleteAtAllLists (cdr L) (decrementAll (cdr Inds))))
                           (T (cons (car L) (deleteAtAllLists (cdr L) (decrementAll Inds))))))))))
 
@@ -24,9 +24,13 @@
 
 ; 3.) sumAll - Function to return sum of all arguments passed in
 (defun sumAll (&rest nums)
+  (sumAllList nums))
+
+; Helper function to be able to use list for recursion in sumAll problem
+(defun sumAllList (nums)
   (cond ((NULL nums) 0)
-        (T (cond ((listp (car nums)) (apply #'sumAll 'eval 'car nums 'cdr nums))
-                 (T (+ (car nums) (apply #'sumAll 'cdr nums)))))))
+    (T (cond ((listp (car nums)) (sumAllList (cons (eval (car nums)) (cdr nums))))
+       (T (+ (car nums) (sumAllList (cdr nums))))))))
 
 ; 4.) similar - Function to take 2 lists as arguments and return list of similar items
 (defun similar (Lone Ltwo))
