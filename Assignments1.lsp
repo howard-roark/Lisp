@@ -57,9 +57,8 @@
 ;   with car of LOne to return match if it exists.
 (defun iterateLTwo (carLOne LTwo)
   (cond ((NULL LTwo) NIL)
-        (T (cond ((listp (car LTwo)) (iterateLTwo carLOne (cdr LTwo)))
-                 (T (cond ((string-equal carLOne (car LTwo)) carLOne)
-                          (T (iterateLTwo carLOne (cdr LTwo)))))))))
+        (T (cond ((equal carLOne (car LTwo)) carLOne)
+                          (T (iterateLTwo carLOne (cdr LTwo)))))))
 
 ; 5.) alone - function to return all the elements in 2 lists that do not have
 ;       a match in the other list
@@ -73,8 +72,12 @@
 (defun aloneCompare (LOne LTwo)
   (cond ((NULL LOne) NIL)
         (T (cond ((NULL LTwo) NIL)
-                 (T (cond ((atom (car LOne) (checkAtoms))))))))
-
+                 (T (cond ((equal (car LOne) (car LTwo))
+                           
+                           
+                           
+                           
+                           
 ; 6.) lastElement - return the last element of a list
 (defun lastElement (L)
   (cond ((NULL L) NIL)
