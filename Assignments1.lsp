@@ -72,7 +72,17 @@
 (defun aloneCompare (LOne LTwo)
   (cond ((NULL LOne) NIL)
         (T (cond ((NULL LTwo) NIL)
-                 (T (cond ((equal (car LOne) (car LTwo))
+                 (T (cond ((not (equal
+                                (car LOne)
+                                (car (aloneCompare (car LOne)
+                                                   (car LTwo))))))
+                           (cons (car LOne)))
+                          (T (cond
+                               ((not (equal
+                                       (cadr LOne) (cadr
+                                                      (aloneCompare
+                                                        (cadr LOne)
+                                                        (cadr LTwo)))))))))))))
                            
                            
                            
