@@ -57,23 +57,22 @@
 ;   with car of LOne to return match if it exists.
 (defun iterateLTwo (carLOne LTwo)
   (cond ((NULL LTwo) NIL)
-        (T (cond ((listp (car LTwo)) (iterateLTwo carLOne (cdr LTwo)))
-                 (T (cond ((string-equal carLOne (car LTwo)) carLOne)
-                          (T (iterateLTwo carLOne (cdr LTwo)))))))))
+        (T (cond ((equal carLOne (car LTwo)) carLOne)
+                 (T (iterateLTwo carLOne (cdr LTwo)))))))
 
 ; 5.) alone - function to return all the elements in 2 lists that do not have
 ;       a match in the other list
 (defun alone (LOne LTwo)
   (cond ((NULL LOne) NIL)
         (T (cond ((NULL LTwo) NIL)
-                 (T (similar (aloneCompare LOne LTwo)
-                          (aloneCompare LTwo LOne)))))))
+                 (T (append (aloneCompare LOne LTwo)
+                            (aloneCompare LTwo LOne)))))))
 
-; Helper function to compare the two lists passed into the alone function
+;Helper function for alone to compare the two lists.
 (defun aloneCompare (LOne LTwo)
   (cond ((NULL LOne) NIL)
-        (T (cond ((NULL LTwo) NIL)
-                 (T (cond ((atom (car LOne) (checkAtoms))))))))
+        (T (cond ((member (car LOne) LTwo) (aloneCompare (cdr LOne) LTwo))
+                 (T (cons (car LOne) (aloneCompare (cdr LOne) LTwo)))))))
 
 ; 6.) lastElement - return the last element of a list
 (defun lastElement (L)
@@ -82,3 +81,27 @@
                  (T (lastElement (cdr L)))))))
 
 ; 7.) mcons - cons any amount / type of argument to a new list
+(defun mcons (&rest Elements)
+  (cond ((NULL Elements) NIL)
+        (T (mconsList Elements))))
+
+;Helper function for mcons
+(defun mconsList (Elements)
+  (cond ((NULL Elements) (car Elements))
+        (T (cons (car Elements) (mconsList (cdr Elements))))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
