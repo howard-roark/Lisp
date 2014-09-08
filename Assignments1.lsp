@@ -6,13 +6,13 @@
 
 
 ; 1.) deleteAt - Function to delete an element from a list whose location in
-;       the list is the Index passed in.
+;   the list is the Index passed in.
 (defun deleteAt (L Ind)
   (cond ((= Ind 0) (cdr L))
         (T (cons (car L) (deleteAt (cdr L) (- Ind 1))))))
 
 ; 2.) deleteAtALl - Function to delete elements from a list whose locations
-;       are the indeces passed in.
+;   are the indeces passed in.
 (defun deleteAtAll (L &rest Inds)
   (cond ((NULL L) L)
         (T (cond ((NULL Inds) L)
@@ -46,7 +46,7 @@
                  (T (+ (car nums) (sumAllList (cdr nums))))))))
 
 ; 4.) similar - Function to take 2 lists as arguments and return list of
-;       similar items
+;   similar items
 (defun similar (LOne LTwo)
   (cond ((NULL LOne) NIL)
         (T (cond ((NULL LTwo) NIL)
@@ -61,7 +61,7 @@
                  (T (iterateLTwo carLOne (cdr LTwo)))))))
 
 ; 5.) alone - function to return all the elements in 2 lists that do not have
-;       a match in the other list
+;   a match in the other list
 (defun alone (LOne LTwo)
   (cond ((NULL LOne) NIL)
         (T (cond ((NULL LTwo) NIL)
@@ -90,18 +90,31 @@
   (cond ((NULL (cdr Elements)) (car Elements))
         (T (cons (car Elements) (mconsList (cdr Elements))))))
 
+; 8.) nth function to take a list of lists, an int and will return a list with
+;   the nth element from each inner list
+(defun nth (Lists Index)
+  (cond ((NULL Lists) NIL)
+        (T (cond ((not (NULL (cdr Lists)))
+                  (cons (innerListNth (car Lists) Index)
+                        (nth (cdr Lists) Index)))
+                 (T (append (innerListNth (car Lists) Index)))))))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+;Helper function for nth
+(defun innerListNth (L Index)
+  (cond ((NULL L) NIL)
+        (T (cond ((= 0 Index) (car L))
+                 (T (innerListNth (cdr L) (- Index 1)))))))
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
