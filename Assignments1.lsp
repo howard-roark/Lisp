@@ -6,13 +6,13 @@
 
 
 ; 1.) deleteAt - Function to delete an element from a list whose location in
-;       the list is the Index passed in.
+;   the list is the Index passed in.
 (defun deleteAt (L Ind)
   (cond ((= Ind 0) (cdr L))
         (T (cons (car L) (deleteAt (cdr L) (- Ind 1))))))
 
 ; 2.) deleteAtALl - Function to delete elements from a list whose locations
-;       are the indeces passed in.
+;   are the indeces passed in.
 (defun deleteAtAll (L &rest Inds)
   (cond ((NULL L) L)
         (T (cond ((NULL Inds) L)
@@ -46,7 +46,7 @@
                  (T (+ (car nums) (sumAllList (cdr nums))))))))
 
 ; 4.) similar - Function to take 2 lists as arguments and return list of
-;       similar items
+;   similar items
 (defun similar (LOne LTwo)
   (cond ((NULL LOne) NIL)
         (T (cond ((NULL LTwo) NIL)
@@ -58,19 +58,24 @@
 (defun iterateLTwo (carLOne LTwo)
   (cond ((NULL LTwo) NIL)
         (T (cond ((equal carLOne (car LTwo)) carLOne)
+<<<<<<< HEAD
                           (T (iterateLTwo carLOne (cdr LTwo)))))))
+=======
+                 (T (iterateLTwo carLOne (cdr LTwo)))))))
+>>>>>>> working-branch
 
 ; 5.) alone - function to return all the elements in 2 lists that do not have
-;       a match in the other list
+;   a match in the other list
 (defun alone (LOne LTwo)
   (cond ((NULL LOne) NIL)
         (T (cond ((NULL LTwo) NIL)
-                 (T (similar (aloneCompare LOne LTwo)
-                          (aloneCompare LTwo LOne)))))))
+                 (T (append (aloneCompare LOne LTwo)
+                            (aloneCompare LTwo LOne)))))))
 
-; Helper function to compare the two lists passed into the alone function
+;Helper function for alone to compare the two lists.
 (defun aloneCompare (LOne LTwo)
   (cond ((NULL LOne) NIL)
+<<<<<<< HEAD
         (T (cond ((NULL LTwo) NIL)
                  (T (cond ((not (equal
                                 (car LOne)
@@ -88,6 +93,11 @@
                            
                            
                            
+=======
+        (T (cond ((member (car LOne) LTwo) (aloneCompare (cdr LOne) LTwo))
+                 (T (cons (car LOne) (aloneCompare (cdr LOne) LTwo)))))))
+
+>>>>>>> working-branch
 ; 6.) lastElement - return the last element of a list
 (defun lastElement (L)
   (cond ((NULL L) NIL)
@@ -95,3 +105,38 @@
                  (T (lastElement (cdr L)))))))
 
 ; 7.) mcons - cons any amount / type of argument to a new list
+(defun mcons (&rest Elements)
+  (cond ((NULL Elements) NIL)
+        (T (mconsList Elements))))
+
+;Helper function for mcons
+(defun mconsList (Elements)
+  (cond ((NULL (cdr Elements)) (car Elements))
+        (T (cons (car Elements) (mconsList (cdr Elements))))))
+
+; 8.) nth function to take a list of lists, an int and will return a list with
+;   the nth element from each inner list
+(defun nth (Lists Index)
+  (cond ((NULL Lists) NIL)
+        (T (cons (innerListNth (car Lists) Index)
+                        (nth (cdr Lists) Index)))))
+
+;Helper function for nth
+(defun innerListNth (L Index)
+  (cond ((NULL L) NIL)
+        (T (cond ((= 0 Index) (car L))
+                 (T (innerListNth (cdr L) (- Index 1)))))))
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
