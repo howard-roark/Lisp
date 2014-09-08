@@ -102,17 +102,3 @@
   (cond ((NULL L) NIL)
         (T (cond ((= 0 Index) (car L))
                  (T (innerListNth (cdr L) (- Index 1)))))))
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
