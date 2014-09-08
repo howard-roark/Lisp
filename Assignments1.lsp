@@ -87,7 +87,7 @@
 
 ;Helper function for mcons
 (defun mconsList (Elements)
-  (cond ((NULL Elements) (car Elements))
+  (cond ((NULL (cdr Elements)) (car Elements))
         (T (cons (car Elements) (mconsList (cdr Elements))))))
 
 
