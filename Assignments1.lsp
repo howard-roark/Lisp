@@ -94,10 +94,8 @@
 ;   the nth element from each inner list
 (defun nth (Lists Index)
   (cond ((NULL Lists) NIL)
-        (T (cond ((not (NULL (cdr Lists)))
-                  (cons (innerListNth (car Lists) Index)
-                        (nth (cdr Lists) Index)))
-                 (T (append (innerListNth (car Lists) Index)))))))
+        (T (cons (innerListNth (car Lists) Index)
+                        (nth (cdr Lists) Index)))))
 
 ;Helper function for nth
 (defun innerListNth (L Index)
