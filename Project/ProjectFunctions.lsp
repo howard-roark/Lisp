@@ -43,3 +43,9 @@
                   (append Tasks (predecessors (car Tasks) AllTasks)))
                  (T (append Tasks (predecessors (car Tasks) AllTasks)
                             (build_all_preds_list (cdr Tasks) AllTasks)))))))
+
+; 5. precedes function to take 2 tasks and the list of all tasks and return true
+;   if the first task is necessary to complete the second, nil otherwise.
+(defun precedes (TaskOne TaskTwo AllTasks)
+  (cond ((member TaskOne (get_all_preds TaskTwo AllTasks AllTasks)) T)
+        (T NIL)))
