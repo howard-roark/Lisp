@@ -28,14 +28,16 @@
 ;		return a list of all the tasks that need to be completed before the
 ;		passed in task can be started.
 (defun get_all_preds (Task Tasks AllTasks)
-  (cond ((NULL L) NIL)
-        (T (cond ((eq (caar Tasks) Task) (build_all_preds_list (cddar Tasks) AllTasks))
-                 (T (get_all_preds Task (cdr Tasks)))))))
+  (cond ((NULL Tasks) NIL)
+        (T (cond ((eq (caar Tasks) Task)
+                  (build_all_preds_list (cddar Tasks) AllTasks))
+                 (T (get_all_preds Task (cdr Tasks) AllTasks))))))
 
 ;	Helper function for get_all_preds to build a list of all required tasks
 ;		based on the original list of predecessors
-(defun build_all_preds_list (L AllTasks)
-  (cond ((NULL L) NIL)
-        (T (setq L (append 
-                       (predecessors (car L) L)
-                       (build_all_preds_list (cdr L)))))))
+(defun build_all_preds_list (Tasks AllTasks)
+  (cond ((NULL Tasks) NIL)
+        (T (cond ((NULL (cdr Tasks))
+            (append Tasks (predecessors (car Tasks) AllTasks)))
+           (T (append (predecessors (car Tasks) AllTasks)
+                      (build_all_preds_list (cdr Tasks) AllTasks)))))))
