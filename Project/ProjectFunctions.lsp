@@ -30,14 +30,16 @@
 (defun get_all_preds (Task Tasks AllTasks)
   (cond ((NULL Tasks) NIL)
         (T (cond ((eq (caar Tasks) Task)
-                  (build_all_preds_list (cddar Tasks) AllTasks))
-                 (T (get_all_preds Task (cdr Tasks) AllTasks))))))
+                  (remove-duplicates
+                    (build_all_preds_list (cddar Tasks) AllTasks)))
+                 (T (remove-duplicates
+                      (get_all_preds Task (cdr Tasks) AllTasks)))))))
 
 ;	Helper function for get_all_preds to build a list of all required tasks
 ;		based on the original list of predecessors
 (defun build_all_preds_list (Tasks AllTasks)
   (cond ((NULL Tasks) NIL)
         (T (cond ((NULL (cdr Tasks))
-            (append Tasks (predecessors (car Tasks) AllTasks)))
-           (T (append (predecessors (car Tasks) AllTasks)
-                      (build_all_preds_list (cdr Tasks) AllTasks)))))))
+                  (append Tasks (predecessors (car Tasks) AllTasks)))
+                 (T (append Tasks (predecessors (car Tasks) AllTasks)
+                            (build_all_preds_list (cdr Tasks) AllTasks)))))))
