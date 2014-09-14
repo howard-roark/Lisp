@@ -1,7 +1,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+<<<<<<< HEAD
 ; Matthew McGuire ;
 ; CS 3210 LISP Functions ;
 ; Turn in date: 8 September 2014 ;
+=======
+;     Matthew McGuire                                                          ;
+;     CS 3210 LISP Functions                                                   ;
+;     Turn in date: 8 September 2014                                           ;
+>>>>>>> working-branch
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; 1.) deleteAt - Function to delete an element from a list whose location in
@@ -90,8 +96,13 @@
         (T (cons (car Elements) (mconsList (cdr Elements))))))
 
 ; 8.) nth function to take a list of lists, an int and will return a list with
+<<<<<<< HEAD
 ; the nth element from each inner list
 (defun nth (Lists Index)
+=======
+;   the nth element from each inner list
+(defun Nth (Lists Index)
+>>>>>>> working-branch
   (cond ((NULL Lists) NIL)
         (T (cons (innerListNth (car Lists) Index)
                  (nth (cdr Lists) Index)))))
