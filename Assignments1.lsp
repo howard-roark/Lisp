@@ -1,6 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;     Matthew McGuire                                                          ; 
-;     CS 3210 LISP Functions                                                   ; 
+;     Matthew McGuire                                                          ;
+;     CS 3210 LISP Functions                                                   ;
 ;     Turn in date: 8 September 2014                                           ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -92,7 +92,7 @@
 
 ; 8.) nth function to take a list of lists, an int and will return a list with
 ;   the nth element from each inner list
-(defun nth (Lists Index)
+(defun Nth (Lists Index)
   (cond ((NULL Lists) NIL)
         (T (cons (innerListNth (car Lists) Index)
                         (nth (cdr Lists) Index)))))

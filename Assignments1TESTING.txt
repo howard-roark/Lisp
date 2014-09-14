@@ -1,0 +1,46 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;     Matthew McGuire                                                          ; 
+;     CS 3210 LISP Functions                                                   ;
+;     TESTING File                                                             ; 
+;     Turn in date: 8 September 2014                                           ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+**************  1.) deleteAt****************************************************
+[3]> (deleteAt '(a b c d e) 2) ==> (A B D E)
+[4]> (deleteAt '(l m n o p q) 0) ==> (M N O P Q)
+
+**************  2.) deleteAtAll*************************************************
+[6]> (deleteAtAll '(a b c d e f g) 0 1 2) ==> (D E F G)
+[7]> (deleteAtAll '(l m n o p q r s) 4 7) ==> (L M N O Q R)
+
+**************  3.) sumAll *****************************************************
+[8]> (sumAll '1 '2 '(* 5 6) '3) ==> 36
+[9]> (sumAll 5 6 (- 2 3) 8 9) ==> 27
+[10]> (sumAll ) ==> 0
+
+**************  4.) similar ****************************************************
+[11]> (similar '(a b c d e f) '(a c e)) ==> (A NIL C NIL E NIL)
+[12]> (similar '(q y z (t v) '(a b t y v (t v))
+[15]> (similar '(q y z (t v) x) '(a b t y (t v) q)) ==> (Q Y NIL (T V) NIL)
+[15]> (similar '((a b) x y z) '((b a) z)) ==> (NIL NIL NIL Z)
+
+**************  5.) alone ******************************************************
+[15]> (alone '(a b c d e) '(x (a c) b r l)) ==> (A C D E X (A C) R L)
+[15]> (alone '(a z b x (e d)) '( a b y (d e))) ==> (Z X (E D) Y (D E))
+[15]> (alone '(a b c) '(b c a)) ==> NIL
+
+**************  6.) lastElement ************************************************
+[16]> (lastElement '(Z)) == > Z
+[16]> (lastElement '(a b c d)) == > D
+[16]> (lastElement '()) ==> NIL
+
+**************  7.) mcons ******************************************************
+[16]> (mcons 'a 'b 'c '(d e)) ==> (A B C D E)
+[16]> (mcons '(x y) 'z 'a '(b c)) ==> ((X Y) Z A B C)
+[16]> (mcons 'a '(b c) '(c d)) ==> (A (B C) C D)
+
+**************  8.) Nth ********************************************************
+
+[17]> (Nth '((fred mary sue)(sam ann dave martino)(hank greg joe billy)
+  (jo judy pat jane)) 2) ==> (SUE DAVE JOE PAT)
+[17]> (Nth '((a b c)(1 2 3)(x y z)(yes no maybe)) 0) ==> (A 1 X YES)
