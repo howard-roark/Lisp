@@ -57,7 +57,10 @@
 ;   of all predecessors and the original list of tasks.
 (defun build_list_of_days(Preds Tasks AllTasks)
   (cond ((or (NULL Preds) (NULL Tasks)) NIL)
-        (T (cond (())))
+        (T (cond ((eq (car Preds) (caar Tasks))
+                  (setq (car Tasks)
+                          (build_list_of_days (cdr Preds) AllTasks AllTasks)))
+                 (T (build_list_of_days Preds (cdr Tasks) AllTasks))))))
 
 
 
