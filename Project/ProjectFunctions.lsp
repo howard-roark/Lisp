@@ -49,38 +49,39 @@
         (T NIL)))
 
 ; 6. start_day function to take a specific job, a list of tasks and returns the
-;   day that the specific job can started
+;   day that the specific job can started (+1: assuming cannot start job until
+;   all others are completely finished)
 (defun start_day (Task Tasks)
   (+ 1 (sum (build_list_of_days (get_all_preds Task Tasks) Tasks Tasks))))
 
 ; Helper function for 6 to build list of days for sum function out of the list
 ;   of all predecessors and the original list of tasks.
 (defun build_list_of_days(Preds Tasks AllTasks)
-  (cond ((or (NULL Preds) (NULL Tasks)) NIL)
+  (cond ((NULL Preds) NIL)
         (T (cond ((eq (car Preds) (caar Tasks))
-                  (setq (car Tasks)
+                  (cons (car Tasks)
                           (build_list_of_days (cdr Preds) AllTasks AllTasks)))
-                 (T (build_list_of_days Preds (cdr Tasks) AllTasks))))))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                  (T (build_list_of_days Preds (cdr Tasks) AllTasks))))))
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
