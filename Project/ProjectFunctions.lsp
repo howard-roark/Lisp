@@ -27,37 +27,38 @@
 ;	4. get_all_preds function to take a specific task and list of tasks and then
 ;		return a list of all the tasks that need to be completed before the
 ;		passed in task can be started.
-(defun get_all_preds (Task Tasks AllTasks)
+(defun get_all_preds (Task Tasks)
   (cond ((NULL Tasks) NIL)
         (T (remove-duplicates
              (append (predecessors Task Tasks)
                      (rest_of_preds 
-                       (predecessors Task Tasks) AllTasks AllTasks))))))
+                       (predecessors Task Tasks) Tasks))))))
 
 ; Helper function for 4 to build a list of all the predecessors for a given task
-(defun rest_of_preds (Preds Tasks AllTasks)
+(defun rest_of_preds (Preds Tasks)
   (cond ((NULL Preds) NIL)
-        (T (append Preds (rest_of_preds
-                           (append (cdr Preds)
-                                   (predecessors (car Preds) AllTasks)) AllTasks
-                           AllTasks)))))
+        (T (append
+             Preds (rest_of_preds
+                     (append (cdr Preds)
+                             (predecessors (car Preds) Tasks)) Tasks)))))
 
 ; 5. precedes function to take 2 tasks and the list of all tasks and return true
 ;   if the first task is necessary to complete the second, nil otherwise.
-(defun precedes (TaskOne TaskTwo AllTasks)
-  (cond ((member TaskOne (get_all_preds TaskTwo AllTasks AllTasks)) T)
+(defun precedes (TaskOne TaskTwo Tasks)
+  (cond ((member TaskOne (get_all_preds TaskTwo Tasks)) T)
         (T NIL)))
 
 ; 6. start_day function to take a specific job, a list of tasks and returns the
 ;   day that the specific job can started
 (defun start_day (Task AllTasks)
-  (sum (remove-duplicates
+  (+ 1 (sum (remove-duplicates
          (build_list_of_days
-           (get_all_preds Task AllTasks AllTasks) AllTasks AllTasks))))
+           (get_all_preds Task AllTasks) AllTasks AllTasks)))))
 
 ; Helper function for 6 to build list of days for sum function out of the list
 ;   of all predecessors and the original list of tasks.
 (defun build_list_of_days(Preds Tasks AllTasks)
+  (print Preds)
   (cond ((NULL Preds) NIL)
         (T (cond ((eq
                     (car Preds) (caar Tasks))
