@@ -27,8 +27,9 @@
 ;	4. get_all_preds function to take a specific task and list of tasks and then
 ;		return a list of all the tasks that need to be completed before the
 ;		passed in task can be started.
-(defun get_all_preds (Task Tasks AllTasks)
+(defun get_all_preds (Task Tasks)
   (cond ((NULL Tasks) NIL)
+<<<<<<< HEAD
         (T (cond ((eq (caar Tasks) Task)
                   (remove-duplicates
                     (build_all_preds_list (cddar Tasks) AllTasks)))
@@ -49,3 +50,61 @@
 (defun precedes (TaskOne TaskTwo AllTasks)
   (cond ((member TaskOne (get_all_preds TaskTwo AllTasks AllTasks)) T)
         (T NIL)))
+=======
+        (T (remove-duplicates
+             (append (predecessors Task Tasks)
+                     (rest_of_preds 
+                       (predecessors Task Tasks) Tasks))))))
+
+; Helper function for 4 to build a list of all the predecessors for a given task
+(defun rest_of_preds (Preds Tasks)
+  (cond ((NULL Preds) NIL)
+        (T (append
+             Preds (rest_of_preds
+                     (append (cdr Preds)
+                             (predecessors (car Preds) Tasks)) Tasks)))))
+
+; 5. precedes function to take 2 tasks and the list of all tasks and return true
+;   if the first task is necessary to complete the second, nil otherwise.
+(defun precedes (TaskOne TaskTwo Tasks)
+  (cond ((member TaskOne (get_all_preds TaskTwo Tasks)) T)
+        (T NIL)))
+
+; 6. start_day function to take a specific job, a list of tasks and returns the
+;   day that the specific job can started (+1: assuming cannot start job until
+;   all others are completely finished)
+(defun start_day (Task Tasks)
+  (+ 1 (sum (build_list_of_days (get_all_preds Task Tasks) Tasks Tasks))))
+
+; Helper function for 6 to build list of days for sum function out of the list
+;   of all predecessors and the original list of tasks.
+(defun build_list_of_days(Preds Tasks AllTasks)
+  (cond ((NULL Preds) NIL)
+        (T (cond ((eq (car Preds) (caar Tasks))
+                  (cons (car Tasks)
+                          (build_list_of_days (cdr Preds) AllTasks AllTasks)))
+                  (T (build_list_of_days Preds (cdr Tasks) AllTasks))))))
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+>>>>>>> working-branch
