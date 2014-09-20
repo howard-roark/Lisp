@@ -49,10 +49,10 @@
         (T NIL)))
 
 ; 6. start_day function to take a specific job, a list of tasks and returns the
-;   day that the specific job can started (+1: assuming cannot start job until
-;   all others are completely finished)
+;   day that the specific job can started (+2: assuming cannot start job until
+;   all others are completely finished, and counting from 1 not 0)
 (defun start_day (Task Tasks)
-  (+ 1 (sum (build_list_of_days (get_all_preds Task Tasks) Tasks Tasks))))
+  (+ 2 (sum (build_list_of_days (get_all_preds Task Tasks) Tasks Tasks))))
 
 ; Helper function for 6 to build list of days for sum function out of the list
 ;   of all predecessors and the original list of tasks.
@@ -60,28 +60,26 @@
   (cond ((NULL Preds) NIL)
         (T (cond ((eq (car Preds) (caar Tasks))
                   (cons (car Tasks)
-                          (build_list_of_days (cdr Preds) AllTasks AllTasks)))
-                  (T (build_list_of_days Preds (cdr Tasks) AllTasks))))))
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+                        (build_list_of_days (cdr Preds) AllTasks AllTasks)))
+                 (T (build_list_of_days Preds (cdr Tasks) AllTasks))))))
+
+; 7. get_max function to take a list of tasks and the entire list of tasks and
+;   return the task that will take longest to compelte.
+
+
+; 8. critical_path takes a job and he list of tasks and returns a list of the
+;   the jobs needed to be completed to get the original job done in the least
+;   amount of time
+(defun critical_path (Task Tasks)
+  (find_critical_path (predecessors Task) Tasks Tasks))
+
+; Helper function to determine critical path
+(defun find_critical_path (FirstPreds Tasks AllTasks)
+  (cond ((NULL FirstPreds) NIL)
+        (T (cond ((not (NULL )))))))
+
+
+
+
+
+
