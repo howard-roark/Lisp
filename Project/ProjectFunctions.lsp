@@ -1,8 +1,8 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;     Matthew McGuire                                                          ;
-;     CS 3210 LISP Project: Building a House                                   ;
-;     Turn in date: 16 September 2014                                          ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; π;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; ;     Matthew McGuire                                                          ;
+; ;     CS 3210 LISP Project: Building a House                                   ;
+; ;     Turn in date: 16 September 2014                                          ;
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;	1. sum function to take list of tasks and return sum of days needed to
 ;		comlete the tasks
@@ -19,10 +19,10 @@
 
 ;	3. gettime function to return the amount of time a specific task will take
 ;		out of a given list of tasks.
-(defun getTime (Task L)
-  (cond ((NULL L) NIL)
+(defun get_time (Task L)
+  (cond ((NULL L) 0)
         (T (cond ((eq (caar L) Task) (cdar L))
-                 (T (getTime Task (cdr L)))))))
+                 (T (get_time Task (cdr L)))))))
 
 ;	4. get_all_preds function to take a specific task and list of tasks and then
 ;		return a list of all the tasks that need to be completed before the
@@ -52,34 +52,26 @@
 ;   day that the specific job can started (+2: assuming cannot start job until
 ;   all others are completely finished, and counting from 1 not 0)
 (defun start_day (Task Tasks)
-  (+ 2 (sum (build_list_of_days (get_all_preds Task Tasks) Tasks Tasks))))
+  (find_start_day (predecessors task Tasks) Tasks))
 
-; Helper function for 6 to build list of days for sum function out of the list
-;   of all predecessors and the original list of tasks.
-(defun build_list_of_days(Preds Tasks AllTasks)
-  (cond ((NULL Preds) NIL)
-        (T (cond ((eq (car Preds) (caar Tasks))
-                  (cons (car Tasks)
-                        (build_list_of_days (cdr Preds) AllTasks AllTasks)))
-                 (T (build_list_of_days Preds (cdr Tasks) AllTasks))))))
+; Helper function for start_day
+(defun find_start_day (Preds AllTasks)
+    (cond ((NULL Preds) 1)
+        ((NULL AllTasks) NIL)
+        (T (max (+ (car (get_time (car Preds) AllTasks))
+                (find_start_day (predecessors (car Preds) AllTasks) AllTasks))
+                (find_start_day (cdr Preds) AllTasks)))))
 
-; 7. get_max function to take a list of tasks and the entire list of tasks and
-;   return the task that will take longest to compelte.
+; 7. get_max function to take a list of tasks and all tasks and returns a list
+;   with the job that takes the longest and the amount of time it will take.
+(defun get_max (Tasks AllTasks))
 
-
-; 8. critical_path takes a job and he list of tasks and returns a list of the
-;   the jobs needed to be completed to get the original job done in the least
-;   amount of time
-(defun critical_path (Task Tasks)
-  (find_critical_path (predecessors Task) Tasks Tasks))
-
-; Helper function to determine critical path
-(defun find_critical_path (FirstPreds Tasks AllTasks)
-  (cond ((NULL FirstPreds) NIL)
-        (T (cond ((not (NULL )))))))
-
-
-
-
+; 8. critical_path finds the time a job can get done in the least amount of time
+;   and returns a list of preceding tasks that need to get done first.
+(defun critical_path (Task Tasks))
+ 
+; 9. depends_on function which takes a task and list of all tasks and determines
+;   which tasks need to wait for the initial task passed in.
+(defun depends_on (Task Tasks))
 
 
