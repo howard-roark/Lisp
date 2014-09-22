@@ -1,4 +1,4 @@
-(setq tasks '((purchase_lot 2)
+(setq fulltasks '((purchase_lot 2)
  (design_house 5)
  (get_permit 1 purchase_lot design_house)
  (get_bids 14 purchase_lot design_house) 

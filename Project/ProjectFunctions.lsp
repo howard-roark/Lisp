@@ -20,8 +20,8 @@
 ;	3. gettime function to return the amount of time a specific task will take
 ;		out of a given list of tasks.
 (defun get_time (Task L)
-  (cond ((NULL L) 0)
-        (T (cond ((eq (caar L) Task) (cdar L))
+  (cond ((NULL L) NIL)
+        (T (cond ((eq Task (caar L)) (cadar L))
                  (T (get_time Task (cdr L)))))))
 
 ;	4. get_all_preds function to take a specific task and list of tasks and then
@@ -56,20 +56,31 @@
 
 ; Helper function for start_day
 (defun find_start_day (Preds AllTasks)
-    (cond ((NULL Preds) 1)
+  (cond ((NULL Preds) 1)
         ((NULL AllTasks) NIL)
-        (T (max (+ (car (get_time (car Preds) AllTasks))
-                (find_start_day (predecessors (car Preds) AllTasks) AllTasks))
+        (T (max (+ (get_time (car Preds) AllTasks)
+                   (find_start_day (predecessors (car Preds) AllTasks) AllTasks))
                 (find_start_day (cdr Preds) AllTasks)))))
 
 ; 7. get_max function to take a list of tasks and all tasks and returns a list
 ;   with the job that takes the longest and the amount of time it will take.
-(defun get_max (Tasks AllTasks))
+(defun get_max (Tasks AllTasks)
+  (cond ((NULL Tasks) '(-1 NO_TASK))
+        (T (cond ((max (car (get_max_helper (car Tasks) AllTasks AllTasks))
+                       (car (get_max (cdr Tasks) AllTasks))
+                       (get_max_helper (car Tasks) AllTasks AllTasks)))))))
+
+; Helper for get_max, returns a list with start_day of task and the task itself
+(defun get_max_helper (Task Tasks AllTasks)
+  (cond ((NULL Tasks) -1)
+        (T (cond ((eq Task (caar Tasks))
+                  (print (list (start_day Task AllTasks) (append Task))))
+                 (T (get_max_helper Task (cdr Tasks) AllTasks))))))
 
 ; 8. critical_path finds the time a job can get done in the least amount of time
 ;   and returns a list of preceding tasks that need to get done first.
 (defun critical_path (Task Tasks))
- 
+
 ; 9. depends_on function which takes a task and list of all tasks and determines
 ;   which tasks need to wait for the initial task passed in.
 (defun depends_on (Task Tasks))
