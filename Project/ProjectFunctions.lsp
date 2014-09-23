@@ -57,7 +57,6 @@
 ; Helper function for start_day
 (defun find_start_day (Preds AllTasks)
   (cond ((NULL Preds) 1)
-        ((NULL AllTasks) NIL)
         (T (max (+ (get_time (car Preds) AllTasks)
                    (find_start_day (predecessors (car Preds) AllTasks) AllTasks))
                 (find_start_day (cdr Preds) AllTasks)))))
@@ -65,17 +64,20 @@
 ; 7. get_max function to take a list of tasks and all tasks and returns a list
 ;   with the job that takes the longest and the amount of time it will take.
 (defun get_max (Tasks AllTasks)
-  (cond ((NULL Tasks) '(-1 NO_TASK))
-        (T (cond ((max (car (get_max_helper (car Tasks) AllTasks AllTasks))
-                       (car (get_max (cdr Tasks) AllTasks))
-                       (get_max_helper (car Tasks) AllTasks AllTasks)))))))
+  (cond ((NULL Tasks) '(0 NO_TASK))
+        (T (return_max (list (list (start_day (car Tasks) AllTasks) (append (car Tasks)))
+                             (get_max (cdr Tasks) AllTasks))))))
 
-; Helper for get_max, returns a list with start_day of task and the task itself
-(defun get_max_helper (Task Tasks AllTasks)
-  (cond ((NULL Tasks) -1)
-        (T (cond ((eq Task (caar Tasks))
-                  (print (list (start_day Task AllTasks) (append Task))))
-                 (T (get_max_helper Task (cdr Tasks) AllTasks))))))
+; Helper for get_max to compare the list get_max built and return the job
+;   that takes the longest
+(defun return_max (L)
+  (cond ((not (member (car L) '(0 NO_TASK))))
+        (T (greater_than (car L) (return_max (cdr L))))))
+
+; Helper for comparing number of days needed for two tasks
+(defun greater_than (L1 L2)
+  (cond ((> (car L1) (car L2)) L1)
+        (T L2)))
 
 ; 8. critical_path finds the time a job can get done in the least amount of time
 ;   and returns a list of preceding tasks that need to get done first.
