@@ -49,8 +49,7 @@
         (T NIL)))
 
 ; 6. start_day function to take a specific job, a list of tasks and returns the
-;   day that the specific job can started (+2: assuming cannot start job until
-;   all others are completely finished, and counting from 1 not 0)
+;   day that the specific job can started
 (defun start_day (Task Tasks)
   (find_start_day (predecessors task Tasks) Tasks))
 
@@ -64,10 +63,9 @@
 ; 7. get_max function to take a list of tasks and all tasks and returns a list
 ;   with the job that takes the longest and the amount of time it will take.
 (defun get_max (Tasks AllTasks)
-  (print Tasks)
   (cond ((NULL Tasks) NIL)
         (T (greater_than (list (start_day (car Tasks) AllTasks)
-                               (append (car Tasks)))
+                               (car Tasks))
                          (get_max (cdr Tasks) AllTasks)))))
 
 ; Helper for comparing number of days needed for two tasks
@@ -85,13 +83,17 @@
 ; Helper for finding the critical path
 (defun find_critical_path (Preds AllTasks)
   (cond ((NULL Preds) NIL)
-        (T (list (cadr (get_max Preds AllTasks))
-                 (append
-                 (find_critical_path (predecessors (car Preds) AllTasks) AllTasks)
-                 (find_critical_path (cdr Preds) AllTasks))))))
+        (T (cons (cadr (get_max Preds AllTasks))
+                 (find_critical_path 
+                   (predecessors 
+                     (cadr (get_max Preds AllTasks)) AllTasks) AllTasks)))))
 
 ; 9. depends_on function which takes a task and list of all tasks and determines
 ;   which tasks need to wait for the initial task passed in.
-(defun depends_on (Task Tasks))
+(defun depends_on (Task Tasks)
+  (cond ((NULL Tasks) NIL)
+        (T (cond ((and (member Task (car Tasks)) (not (eq Task (caar Tasks))))
+                  (append (cddar Tasks)))
+                 (T (depends_on Task (cdr Tasks)))))))
 
 
