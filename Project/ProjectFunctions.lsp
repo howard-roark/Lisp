@@ -1,8 +1,8 @@
-; π;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; ;     Matthew McGuire                                                          ;
-; ;     CS 3210 LISP Project: Building a House                                   ;
-; ;     Turn in date: 16 September 2014                                          ;
-; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;     Matthew McGuire                                                          ;
+;     CS 3210 LISP Project: Building a House                                   ;
+;     Turn in date: 16 September 2014                                          ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;	1. sum function to take list of tasks and return sum of days needed to
 ;		comlete the tasks
@@ -64,8 +64,10 @@
 ; 7. get_max function to take a list of tasks and all tasks and returns a list
 ;   with the job that takes the longest and the amount of time it will take.
 (defun get_max (Tasks AllTasks)
+  (print Tasks)
   (cond ((NULL Tasks) NIL)
-        (T (greater_than (list (start_day (car Tasks) AllTasks) (append (car Tasks)))
+        (T (greater_than (list (start_day (car Tasks) AllTasks)
+                               (append (car Tasks)))
                          (get_max (cdr Tasks) AllTasks)))))
 
 ; Helper for comparing number of days needed for two tasks
@@ -77,7 +79,16 @@
 
 ; 8. critical_path finds the time a job can get done in the least amount of time
 ;   and returns a list of preceding tasks that need to get done first.
-(defun critical_path (Task Tasks))
+(defun critical_path (Task Tasks)
+  (find_critical_path (predecessors Task Tasks) Tasks))
+
+; Helper for finding the critical path
+(defun find_critical_path (Preds AllTasks)
+  (cond ((NULL Preds) NIL)
+        (T (list (cadr (get_max Preds AllTasks))
+                 (append
+                 (find_critical_path (predecessors (car Preds) AllTasks) AllTasks)
+                 (find_critical_path (cdr Preds) AllTasks))))))
 
 ; 9. depends_on function which takes a task and list of all tasks and determines
 ;   which tasks need to wait for the initial task passed in.
