@@ -1,8 +1,8 @@
-; π;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; ;     Matthew McGuire                                                          ;
-; ;     CS 3210 LISP Project: Building a House                                   ;
-; ;     Turn in date: 16 September 2014                                          ;
-; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;     Matthew McGuire                                                          ;
+;     CS 3210 LISP Project: Building a House                                   ;
+;     Turn in date: 29 September 2014                                          ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; 1. sum function to take list of tasks and return sum of days needed to
 ;   comlete the tasks
@@ -20,8 +20,8 @@
 ; 3. gettime function to return the amount of time a specific task will take
 ;   out of a given list of tasks.
 (defun get_time (Task L)
-  (cond ((NULL L) 0)
-        (T (cond ((eq (caar L) Task) (cdar L))
+  (cond ((NULL L) NIL)
+        (T (cond ((eq Task (caar L)) (cadar L))
                  (T (get_time Task (cdr L)))))))
 
 ; 4. get_all_preds function to take a specific task and list of tasks and then
@@ -49,29 +49,54 @@
         (T NIL)))
 
 ; 6. start_day function to take a specific job, a list of tasks and returns the
-;   day that the specific job can started (+2: assuming cannot start job until
-;   all others are completely finished, and counting from 1 not 0)
+;   day that the specific job can started
 (defun start_day (Task Tasks)
   (find_start_day (predecessors task Tasks) Tasks))
 
 ; Helper function for start_day
 (defun find_start_day (Preds AllTasks)
-    (cond ((NULL Preds) 1)
-        ((NULL AllTasks) NIL)
-        (T (max (+ (car (get_time (car Preds) AllTasks))
-                (find_start_day (predecessors (car Preds) AllTasks) AllTasks))
+  (cond ((NULL Preds) 1)
+        (T (max (+ (get_time (car Preds) AllTasks)
+                   (find_start_day (predecessors (car Preds) AllTasks) AllTasks))
                 (find_start_day (cdr Preds) AllTasks)))))
 
 ; 7. get_max function to take a list of tasks and all tasks and returns a list
 ;   with the job that takes the longest and the amount of time it will take.
-(defun get_max (Tasks AllTasks))
+(defun get_max (Tasks AllTasks)
+  (cond ((NULL Tasks) NIL)
+        (T (greater_than (list (start_day (car Tasks) AllTasks)
+                               (car Tasks))
+                         (get_max (cdr Tasks) AllTasks)))))
+
+; Helper for comparing number of days needed for two tasks
+(defun greater_than (L1 L2)
+  (cond ((NULL L1) L2)
+        ((NULL L2) L1)
+        (T (cond ((> (car L1) (car L2)) L1)
+                 (T L2)))))
 
 ; 8. critical_path finds the time a job can get done in the least amount of time
 ;   and returns a list of preceding tasks that need to get done first.
-(defun critical_path (Task Tasks))
- 
+(defun critical_path (Task Tasks)
+  (find_critical_path (predecessors Task Tasks) Tasks))
+
+; Helper for finding the critical path
+(defun find_critical_path (Preds AllTasks)
+  (cond ((NULL Preds) NIL)
+        (T (cons (cadr (get_max Preds AllTasks))
+                 (find_critical_path 
+                   (predecessors 
+                     (cadr (get_max Preds AllTasks)) AllTasks) AllTasks)))))
+
 ; 9. depends_on function which takes a task and list of all tasks and determines
 ;   which tasks need to wait for the initial task passed in.
-(defun depends_on (Task Tasks))
+(defun depends_on (Task Tasks)
+  (execute_depends_on Task Tasks Tasks))
 
-
+; Helper for depends on
+(defun execute_depends_on (Task Tasks AllTasks)
+  (cond ((NULL Tasks) NIL)
+        (T (cond ((member Task (get_all_preds (caar Tasks) AllTasks))
+                  (cons (caar Tasks)
+                        (execute_depends_on Task (cdr Tasks) AllTasks)))
+                 (T (execute_depends_on Task (cdr Tasks) AllTasks))))))
