@@ -91,9 +91,12 @@
 ; 9. depends_on function which takes a task and list of all tasks and determines
 ;   which tasks need to wait for the initial task passed in.
 (defun depends_on (Task Tasks)
+  (execute_depends_on Task Tasks Tasks))
+
+; Helper for depends on
+(defun execute_depends_on (Task Tasks AllTasks)
   (cond ((NULL Tasks) NIL)
-        (T (cond ((and (member Task (car Tasks)) (not (eq Task (caar Tasks))))
-                  (append (cddar Tasks)))
-                 (T (depends_on Task (cdr Tasks)))))))
-
-
+        (T (cond ((member Task (get_all_preds (caar Tasks) AllTasks))
+                  (cons (caar Tasks)
+                        (execute_depends_on Task (cdr Tasks) AllTasks)))
+                 (T (execute_depends_on Task (cdr Tasks) AllTasks))))))
