@@ -1,7 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;     Matthew McGuire                                                          ;
 ;     CS 3210 LISP Project: Building a House                                   ;
-;     Turn in date: 16 September 2014                                          ;
+;     Turn in date: 29 September 2014                                          ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;	1. sum function to take list of tasks and return sum of days needed to
